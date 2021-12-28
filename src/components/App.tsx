@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 import { ChakraProvider } from '@chakra-ui/react';
 
@@ -7,17 +7,17 @@ import AppHeader from './AppHeader';
 import AppMessages from './AppMessages';
 import AppNavigation from './AppNavigation';
 
-function App(): React.ReactElement<any, any> {
+function App(): React.ReactElement {
   return (
-    <ChakraProvider>
-      <RecoilRoot>
-        <BrowserRouter>
+    <RecoilRoot>
+      <ChakraProvider>
+        <HashRouter>
           <AppHeader />
           <AppMessages />
           <AppNavigation />
-        </BrowserRouter>
-      </RecoilRoot>
-    </ChakraProvider>
+        </HashRouter>
+      </ChakraProvider>
+    </RecoilRoot>
   );
 }
 

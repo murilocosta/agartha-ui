@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "https://murilocosta.github.io/agartha-ui",
   "dependencies": {
+    "@chakra-ui/icons": "^1.1.1",
     "@chakra-ui/react": "^1.7.2",
     "@emotion/react": "11",
     "@emotion/styled": "11",
