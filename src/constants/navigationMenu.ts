@@ -6,40 +6,40 @@ export interface NavigationItem {
 export const NAVIGATION_ITEMS: NavigationItem[] = [
   {
     label: 'Home',
-    href: '#/',
+    href: '/',
   },
   {
     label: 'Change Location',
-    href: '#/survivors/change-location',
+    href: '/survivors/change-location',
   },
   {
     label: 'Trade',
-    href: '#/trades',
+    href: '/trades',
   },
   {
     label: 'Report Infected',
-    href: '#/survivors/report-infected',
+    href: '/survivors/report-infected',
   },
 ];
 
 export const ANONYMOUS_USER_MENU_ITEMS: NavigationItem[] = [
   {
     label: 'Register',
-    href: '#/register',
+    href: '/register',
   },
   {
     label: 'Login',
-    href: '#/login',
+    href: '/login',
   },
 ];
 
 export const AUTHENTICATED_USER_MENU_ITEMS: NavigationItem[] = [
   {
     label: 'Inventory',
-    href: '#/inventory',
+    href: '/inventory',
   },
   {
     label: 'Logout',
-    href: '#/logout',
+    href: '/logout',
   },
 ];
