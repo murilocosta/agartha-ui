@@ -12,9 +12,11 @@
     "formik": "^2.2.6",
     "framer-motion": "4",
     "history": "5",
+    "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-leaflet": "^3.2.2",
     "react-router-dom": "6",
     "react-scripts": "4.0.3",
     "recoil": "^0.5.2",
@@ -27,11 +29,15 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "@types/jest": "^27.0.3",
+    "@types/leaflet": "^1.7.8",
     "@types/node": "^16.11.11",
     "@types/react": "^17.0.37",
     "@types/react-dom": "^17.0.11",
     "gh-pages": "^3.1.0",
     "typescript": "^4.5.2"
+  },
+  "resolutions": {
+    "react-error-overlay": "6.0.9"
   },
   "scripts": {
     "predeploy": "npm run build",
@@ -47,16 +53,9 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  }
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ]
 }
