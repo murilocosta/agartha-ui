@@ -1,19 +1,42 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { getIn, ArrayHelpers, FieldArray, FormikProps, FormikValues } from 'formik';
 
-import SurvivorRegistrationInventoryListItem from './SurvivorRegistrationInventoryListItem';
-import { itemListSelector } from '../selectors/items';
 import { ItemRead } from '../models/item';
+import { useGetItemsQuery } from '../services';
+import SurvivorRegistrationInventoryFallback from './SurvivorRegistrationInventoryFallback';
+import SurvivorRegistrationInventoryListItem from './SurvivorRegistrationInventoryListItem';
 
-function SurvivorRegistrationInventoryList(): React.ReactElement {
-  const itemList: ItemRead[] = useRecoilValue(itemListSelector);
+export interface InventoryListProps extends FormikProps<FormikValues> {
+  nameFilter?: string;
+}
+
+function SurvivorRegistrationInventoryList(props: InventoryListProps): React.ReactElement<InventoryListProps> {
+  const { data, isLoading } = useGetItemsQuery(null);
+
+  const itemFilter = ({ name }: ItemRead): boolean => {
+    return name.toLowerCase().includes((props.nameFilter || '').toLowerCase());
+  }
+
+  if (isLoading) {
+    return <SurvivorRegistrationInventoryFallback />;
+  }
 
   return (
-    <>
-      {itemList.map(item =>
-        <SurvivorRegistrationInventoryListItem key={item.id} item={item} />
-      )}
-    </>
+    <FieldArray
+      name='survivor.inventory'
+      render={
+        (arrayHelpers: ArrayHelpers) => (
+          data && data.filter(itemFilter).map((item: ItemRead) =>
+            <SurvivorRegistrationInventoryListItem
+              key={item.id}
+              item={item}
+              quantity={getIn(props.values, `survivor.inventory.${item.id}.quantity`) || 0}
+              {...arrayHelpers}
+            />
+          )
+        )
+      }
+    />
   );
 }
 

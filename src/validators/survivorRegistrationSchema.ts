@@ -8,12 +8,12 @@ export const positionSchema = Yup.object().shape({
 
 export const inventorySchema = Yup.object().shape({
   item_id: Yup.number().required().positive().integer(),
-  quantity: Yup.number().required().positive().integer()
+  quantity: Yup.number().required().min(0),
 });
 
 export const survivorSchema = Yup.object().shape({
   name: Yup.string().required().min(2),
-  age: Yup.number().required().positive().integer(),
+  age: Yup.number().required().min(0),
   gender: Yup.string().required(),
   position: positionSchema,
   inventory: Yup.array().of(inventorySchema).min(1),

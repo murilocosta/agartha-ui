@@ -20,3 +20,29 @@ export interface ItemRead {
   price: number;
   rarity: ItemRarity;
 }
+
+export function buildItemFilterQuery(filter?: ItemFilter): string {
+  if (!filter) {
+    return '';
+  }
+
+  const query = [];
+
+  if (filter.name) {
+    query.push(`name=${filter.name}`);
+  }
+
+  if (filter.sort) {
+    query.push(`sort=${filter.sort}`);
+  }
+
+  if (filter.page) {
+    query.push(`page=${filter.page}`);
+  }
+
+  if (query.length === 0) {
+    return '';
+  }
+
+  return '?' + query.join('&');
+}

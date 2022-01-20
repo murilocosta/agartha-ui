@@ -7,8 +7,6 @@ import { ReactComponent as WeaponIcon } from '../images/icons/weapon.svg';
 import { ReactComponent as UnknownIcon } from '../images/icons/unknown.svg';
 import { ItemIconMap, ItemIconType } from '../models/shared';
 
-
-
 export const ITEM_ICON_MAP: ItemIconMap = {
   [ItemIconType.Food]: FoodIcon,
   [ItemIconType.Medicine]: MedicineIcon,

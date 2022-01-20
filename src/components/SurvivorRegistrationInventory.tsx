@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { getIn, FormikProps, FormikValues } from 'formik';
 
 import {
   FormControl,
+  FormErrorMessage,
   FormLabel,
   HStack,
   IconButton,
@@ -10,24 +12,26 @@ import {
 } from '@chakra-ui/react';
 import { SearchIcon } from '@chakra-ui/icons';
 
-import SurvivorRegistrationInventoryFallback from './SurvivorRegistrationInventoryFallback';
 import SurvivorRegistrationInventoryList from './SurvivorRegistrationInventoryList';
 
-function SurvivorRegistrationInventory(): React.ReactElement {
+function SurvivorRegistrationInventory(props: FormikProps<FormikValues>): React.ReactElement {
+  const [nameFilter, setNameFilter] = useState('');
+
   return (
     <>
       <FormControl paddingBottom={30}>
         <FormLabel htmlFor='filter'>{'Filter'}</FormLabel>
-        <HStack spacing={5}>
-          <Input id='filter' type='text' />
+        <HStack spacing={1}>
+          <Input id='filter' type='text' onChange={(event) => setNameFilter(event.target.value)} />
           <Spacer />
           <IconButton aria-label={'Filter items'} icon={<SearchIcon />} />
         </HStack>
       </FormControl>
 
-      <React.Suspense fallback={<SurvivorRegistrationInventoryFallback />}>
-        <SurvivorRegistrationInventoryList />
-      </React.Suspense>
+      <FormControl isInvalid={getIn(props.errors, 'survivor.inventory') && getIn(props.touched, 'survivor.inventory')}>
+        <SurvivorRegistrationInventoryList nameFilter={nameFilter} {...props} />
+        <FormErrorMessage>{'Must select at least one item'}</FormErrorMessage>
+      </FormControl>
     </>
   );
 }
