@@ -1,23 +1,25 @@
 import React from 'react';
 import { HashRouter } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
+import { Provider as ReduxProvider } from 'react-redux'
+
 import { ChakraProvider } from '@chakra-ui/react';
 
+import store from '../features/store';
 import AppHeader from './AppHeader';
-import AppMessages from './AppMessages';
+import AppErrorBox from './AppErrorBox';
 import AppNavigation from './AppNavigation';
 
 function App(): React.ReactElement {
   return (
-    <RecoilRoot>
+    <ReduxProvider store={store}>
       <ChakraProvider>
         <HashRouter>
           <AppHeader />
-          <AppMessages />
+          <AppErrorBox />
           <AppNavigation />
         </HashRouter>
       </ChakraProvider>
-    </RecoilRoot>
+    </ReduxProvider>
   );
 }
 

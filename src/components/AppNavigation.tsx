@@ -1,9 +1,14 @@
 import React from 'react';
-import { Heading } from '@chakra-ui/react'
+import { Route, Routes } from 'react-router-dom';
 
-function AppNavigation(): React.ReactElement<any, any> {
+import SurvivorRegistrationPage from './SurvivorRegistrationPage';
+
+function AppNavigation(): React.ReactElement {
   return (
-    <Heading>It works!</Heading>
+    <Routes>
+      <Route path='/' element={<></>} />
+      <Route path='/register' element={<SurvivorRegistrationPage />} />
+    </Routes>
   );
 }
 
