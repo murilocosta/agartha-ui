@@ -12,16 +12,23 @@ export interface Location {
   timezone: string;
 }
 
+interface SurvivorPayload {
+  name: string;
+  age: number;
+  gender: string | SurvivorGender;
+  position: Location;
+}
+
+export interface SurvivorRead extends SurvivorPayload {
+  id: number;
+}
+
 export interface SurvivorResource {
   item_id: number;
   quantity: number;
 }
 
-export interface SurvivorWrite {
-  name: string;
-  age: number;
-  gender: string | SurvivorGender;
-  position: Location;
+export interface SurvivorWrite extends SurvivorPayload {
   inventory: SurvivorResource[];
 }
 

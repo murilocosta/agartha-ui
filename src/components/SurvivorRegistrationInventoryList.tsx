@@ -24,18 +24,18 @@ function SurvivorRegistrationInventoryList(props: InventoryListProps): React.Rea
   return (
     <FieldArray
       name='survivor.inventory'
-      render={
-        (arrayHelpers: ArrayHelpers) => (
-          data && data.filter(itemFilter).map((item: ItemRead) =>
+      render={(arrayHelpers: ArrayHelpers) => (
+        data !== undefined && data.length > 0 ? (
+          data.filter(itemFilter).map((item: ItemRead) => (
             <SurvivorRegistrationInventoryListItem
               key={item.id}
               item={item}
               quantity={getIn(props.values, `survivor.inventory.${item.id}.quantity`) || 0}
               {...arrayHelpers}
             />
-          )
-        )
-      }
+          ))
+        ) : <></>
+      )}
     />
   );
 }

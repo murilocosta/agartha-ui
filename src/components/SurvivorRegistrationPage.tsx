@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Formik, FormikProps, FormikValues } from 'formik';
+import { Formik, FormikHelpers, FormikProps, FormikValues } from 'formik';
 
 import { Container, useToast } from '@chakra-ui/react';
 
@@ -8,6 +8,7 @@ import { AuthSignUp } from '../models/auth';
 import authSignUpSchema from '../validators/survivorRegistrationSchema';
 import SurvivorRegistrationContainer from './SurvivorRegistrationContainer';
 import { useRegisterSurvivorMutation } from '../services';
+import { buildSuccessToast } from '../services/toastService';
 
 const initialValues: AuthSignUp = {
   username: '',
@@ -27,19 +28,16 @@ const initialValues: AuthSignUp = {
 
 function SurvivorRegistrationPage(): React.ReactElement {
   const [registerSurvivor, { isSuccess }] = useRegisterSurvivorMutation();
-  const createToast = useToast();
+  const toast = useToast();
 
   useEffect(() => {
     if (isSuccess) {
-      createToast({
-        title: 'Survivor Registered',
-        description: "The survivor account was successfully created!",
-        status: 'success',
-        duration: 3000,
-        isClosable: true,
-      });
+      toast(buildSuccessToast(
+        'Survivor Registered',
+        'The survivor account was successfully created!'
+      ));
     }
-  }, [isSuccess, createToast])
+  }, [isSuccess, toast])
 
 
   return (
@@ -47,7 +45,7 @@ function SurvivorRegistrationPage(): React.ReactElement {
       <Formik
         initialValues={initialValues}
         validationSchema={authSignUpSchema}
-        onSubmit={(values, actions) => {
+        onSubmit={(values: AuthSignUp, actions: FormikHelpers<AuthSignUp>) => {
           actions.setSubmitting(true);
           values.survivor.inventory = values.survivor.inventory.filter((item) => !!item);
           registerSurvivor(values).finally(() => {
