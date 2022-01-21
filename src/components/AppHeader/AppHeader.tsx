@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
-import headerLogo from "../images/logo.png";
+import headerLogo from "../../images/logo.png";
 
 import AppHeaderDesktop from './AppHeaderDesktop';
 import AppHeaderMobile from './AppHeaderMobile';

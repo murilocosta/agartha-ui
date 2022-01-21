@@ -10,6 +10,7 @@ import { buildSuccessToast } from '../../services/toastService';
 import authSignUpSchema from '../../validators/survivorRegistrationSchema';
 
 import SurvivorRegistrationContainer from './SurvivorRegistrationContainer';
+import AppErrorBox from '../AppError/AppErrorBox';
 
 const initialValues: AuthSignUp = {
   username: '',
@@ -43,6 +44,9 @@ function SurvivorRegistrationPage(): React.ReactElement {
 
   return (
     <Container maxW='container.xl'>
+      <AppErrorBox />
+      <br />
+
       <Formik
         initialValues={initialValues}
         validationSchema={authSignUpSchema}

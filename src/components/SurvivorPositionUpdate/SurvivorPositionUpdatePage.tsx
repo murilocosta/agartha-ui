@@ -12,6 +12,7 @@ import survivorPositionSchema from '../../validators/survivorPositionSchema';
 import AppPageHeader from '../AppPageHeader';
 import SurvivorPositionUpdateForm from './SurvivorPositionUpdateForm';
 import SurvivorPositionUpdateFormFallback from './SurvivorPositionUpdateFormFallback';
+import AppErrorBox from '../AppError/AppErrorBox';
 
 const initialValues: Location = {
   latitude: 0,
@@ -44,6 +45,9 @@ function SurvivorPositionUpdatePage(): React.ReactElement {
 
   return (
     <Container maxW='container.lg'>
+      <AppErrorBox />
+      <br />
+
       <AppPageHeader title={'Change Location'} />
 
       <Formik

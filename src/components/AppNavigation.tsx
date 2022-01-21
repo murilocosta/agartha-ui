@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-import SurvivorLoginPage from './SurvivorLoginPage';
-import SurvivorPositionUpdatePage from './SurvivorPositionUpdatePage';
-import SurvivorRegistrationPage from './SurvivorRegistrationPage';
+import SurvivorLoginPage from './SurvivorLogin/SurvivorLoginPage';
+import SurvivorPositionUpdatePage from './SurvivorPositionUpdate/SurvivorPositionUpdatePage';
+import SurvivorRegistrationPage from './SurvivorRegistration/SurvivorRegistrationPage';
 
 function AppNavigation(): React.ReactElement {
   return (
