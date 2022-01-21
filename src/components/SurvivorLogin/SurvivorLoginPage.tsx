@@ -1,6 +1,11 @@
 import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Formik, FormikHelpers, FormikProps, FormikValues } from 'formik';
+import {
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  FormikValues
+} from 'formik';
 
 import {
   Modal,
@@ -10,12 +15,13 @@ import {
   useToast
 } from '@chakra-ui/react';
 
-import { AuthCredentials } from '../models/auth';
-import { useAppDispatch } from '../features/hooks';
-import { setCredentials } from '../features/auth/authSlice';
-import { useLoginSurvivorMutation } from '../services';
-import { buildErrorToast } from '../services/toastService';
-import survivorLoginSchema from '../validators/survivorLoginSchema';
+import { useAppDispatch } from '../../features/hooks';
+import { setCredentials } from '../../features/auth/authSlice';
+import { AuthCredentials } from '../../models/auth';
+import { useLoginSurvivorMutation } from '../../services';
+import { buildErrorToast } from '../../services/toastService';
+import survivorLoginSchema from '../../validators/survivorLoginSchema';
+
 import SurvivorLoginForm from './SurvivorLoginForm';
 
 const initialValues: AuthCredentials = {

@@ -2,7 +2,11 @@ import React from 'react';
 
 import { Divider, Text } from '@chakra-ui/react';
 
-function AppPageHeader({ title }: any): React.ReactElement {
+interface PageHeaderProps {
+  title: string;
+}
+
+function AppPageHeader({ title }: PageHeaderProps): React.ReactElement<PageHeaderProps> {
   return (
     <>
       <Text fontSize='xl'>{title}</Text>

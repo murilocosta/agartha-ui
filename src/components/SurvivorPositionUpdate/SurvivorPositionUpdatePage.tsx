@@ -2,12 +2,14 @@ import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, FormikHelpers, FormikProps, FormikValues } from 'formik';
 
-import { Container, Divider, Heading, useToast } from '@chakra-ui/react';
+import { Container, useToast } from '@chakra-ui/react';
 
-import { Location } from '../models/location';
-import { useFetchSurvivorProfileQuery, useUpdateLocationMutation } from '../services';
-import { buildSuccessToast } from '../services/toastService';
-import survivorPositionSchema from '../validators/survivorPositionSchema';
+import { Location } from '../../models/location';
+import { useFetchSurvivorProfileQuery, useUpdateLocationMutation } from '../../services';
+import { buildSuccessToast } from '../../services/toastService';
+import survivorPositionSchema from '../../validators/survivorPositionSchema';
+
+import AppPageHeader from '../AppPageHeader';
 import SurvivorPositionUpdateForm from './SurvivorPositionUpdateForm';
 import SurvivorPositionUpdateFormFallback from './SurvivorPositionUpdateFormFallback';
 
@@ -42,9 +44,7 @@ function SurvivorPositionUpdatePage(): React.ReactElement {
 
   return (
     <Container maxW='container.lg'>
-      <Heading>{'Change Location'}</Heading>
-
-      <Divider marginTop={5} marginBottom={5} />
+      <AppPageHeader title={'Change Location'} />
 
       <Formik
         initialValues={data?.position || initialValues}

@@ -14,9 +14,9 @@ import {
 	Text
 } from '@chakra-ui/react';
 
-import { getItemIcon } from '../constants/itemIcons';
-import { ItemRead } from '../models/item';
-import { SurvivorResource } from '../models/survivor';
+import { getItemIcon } from '../../constants/itemIconList';
+import { ItemRead } from '../../models/item';
+import { SurvivorResource } from '../../models/survivor';
 
 export interface InventoryItemProps extends ArrayHelpers {
 	item: ItemRead;

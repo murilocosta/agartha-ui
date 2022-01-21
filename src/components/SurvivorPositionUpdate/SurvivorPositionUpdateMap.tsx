@@ -1,21 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import { LatLngLiteral } from 'leaflet';
 
-import { LEAFLET_DEFAULTS } from '../constants/leafletDefaults';
-import SurvivorRegistrationMapMarker from './SurvivorRegistrationMapMarker';
+import { LEAFLET_DEFAULTS } from '../../constants/leafletDefaults';
 
-export interface RegistrationMapProps {
+import SurvivorRegistrationMapMarker from '../SurvivorRegistration/SurvivorRegistrationMapMarker';
+
+export interface PositionUpdateMapProps {
+  position: LatLngLiteral;
   setPosition(position: LatLngLiteral): void;
 }
 
-function SurvivorRegistrationMap(props: RegistrationMapProps): React.ReactElement<RegistrationMapProps> {
-  const [position, setPosition] = useState(LEAFLET_DEFAULTS.position);
-
+function SurvivorPositionUpdateMap(props: PositionUpdateMapProps): React.ReactElement {
   return (
     <MapContainer
       style={{ height: 400 }}
-      center={position}
+      center={props.position}
       zoom={13}
       scrollWheelZoom={false}
     >
@@ -24,9 +24,8 @@ function SurvivorRegistrationMap(props: RegistrationMapProps): React.ReactElemen
         url={LEAFLET_DEFAULTS.url}
       />
       <SurvivorRegistrationMapMarker
-        position={position}
+        position={props.position}
         setPosition={(position: LatLngLiteral) => {
-          setPosition(position);
           props.setPosition(position);
         }}
       />
@@ -34,4 +33,4 @@ function SurvivorRegistrationMap(props: RegistrationMapProps): React.ReactElemen
   );
 }
 
-export default SurvivorRegistrationMap;
+export default SurvivorPositionUpdateMap;

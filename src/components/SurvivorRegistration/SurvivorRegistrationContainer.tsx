@@ -5,8 +5,8 @@ import { LatLngLiteral } from 'leaflet';
 
 import { Box, Button, ButtonGroup, Flex, Spacer, useBreakpointValue } from '@chakra-ui/react';
 
-import { convertLocation } from '../models/location';
-import AppPageHeader from './AppPageHeader';
+import { convertLocation } from '../../models/location';
+import AppPageHeader from '../AppPageHeader';
 import SurvivorRegistrationInventory from './SurvivorRegistrationInventory';
 import SurvivorRegistrationForm from './SurvivorRegistrationForm';
 import SurvivorRegistrationMap from './SurvivorRegistrationMap';

@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { selectError, setError } from '../features/errorHandler/errorHandlerSlice';
-import { useAppDispatch, useAppSelector } from '../features/hooks';
+import { selectError, setError } from '../../features/errorHandler/errorHandlerSlice';
+import { useAppDispatch, useAppSelector } from '../../features/hooks';
+
 import AppMessages from './AppErrorMessage';
 
 function AppErrorBox(): React.ReactElement {

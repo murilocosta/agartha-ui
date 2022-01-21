@@ -6,6 +6,18 @@ export interface ItemFilter {
   page: number;
 }
 
+export enum ItemIconType {
+  Food = 'food-icon',
+  Medicine = 'medicine-icon',
+  Water = 'water-icon',
+  Weapon = 'weapon-icon',
+  Unknown = 'unknown-icon',
+}
+
+export interface ItemIconMap {
+  [type: string]: React.FunctionComponent
+}
+
 export enum ItemRarity {
   Common = 'Common',
   Uncommon = 'Uncommon',
@@ -16,7 +28,7 @@ export enum ItemRarity {
 export interface ItemRead {
   id: number;
   name: string;
-  icon: string;
+  icon: ItemIconType;
   price: number;
   rarity: ItemRarity;
 }
