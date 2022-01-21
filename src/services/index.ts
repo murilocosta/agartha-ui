@@ -6,7 +6,8 @@ import { RootState } from '../features/store';
 import { AuthCredentials, AuthResponse, AuthSignUp } from '../models/auth';
 import { buildErrorMessage } from '../models/error';
 import { buildItemFilterQuery, ItemFilter, ItemRead } from '../models/item';
-import { SurvivorRead, SurvivorWrite } from '../models/survivor';
+import { SurvivorLocationWrite } from '../models/location';
+import { SurvivorRead, SurvivorResponse } from '../models/survivor';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:8080/api/',
@@ -43,16 +44,12 @@ export const agarthaAPI = createApi({
       query: (filter: ItemFilter) => 'items' + buildItemFilterQuery(filter),
     }),
 
-    registerSurvivor: builder.mutation<SurvivorWrite, Partial<AuthSignUp>>({
-      query(body: AuthSignUp): any {
-        return { url: 'register', method: 'POST', body };
-      },
+    registerSurvivor: builder.mutation<SurvivorResponse, Partial<AuthSignUp>>({
+      query: (body: AuthSignUp): any => ({ url: 'register', method: 'POST', body }),
     }),
 
     loginSurvivor: builder.mutation<AuthResponse, Partial<AuthCredentials>>({
-      query(body: AuthCredentials): any {
-        return { url: 'login', method: 'POST', body };
-      }
+      query: (body: AuthCredentials): any => ({ url: 'login', method: 'POST', body })
     }),
 
     fetchSurvivorProfile: builder.query<SurvivorRead, void>({
@@ -62,6 +59,14 @@ export const agarthaAPI = createApi({
     fetchSurvivorDetails: builder.query<SurvivorRead, number>({
       query: (survivorId: number) => `survivors/${survivorId}`,
     }),
+
+    updateLocation: builder.mutation<SurvivorResponse, Partial<SurvivorLocationWrite>>({
+      query: (payload: SurvivorLocationWrite): any => ({
+        url: `survivors/${payload.survivor_id}`,
+        method: 'PUT',
+        body: payload.position,
+      })
+    })
   }),
 });
 
@@ -70,5 +75,6 @@ export const {
   useRegisterSurvivorMutation,
   useLoginSurvivorMutation,
   useFetchSurvivorProfileQuery,
-  useLazyFetchSurvivorDetailsQuery,
+  useFetchSurvivorDetailsQuery,
+  useUpdateLocationMutation,
 } = agarthaAPI;

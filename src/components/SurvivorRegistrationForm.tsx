@@ -19,7 +19,8 @@ import {
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 import { GENDER_LIST } from '../constants/genderList';
-import { buildLocationString, SurvivorGender } from '../models/survivor';
+import { buildLocationString } from '../models/location';
+import { SurvivorGender } from '../models/survivor';
 
 function SurvivorRegistrationForm(props: FormikProps<FormikValues>): React.ReactElement {
   const [showPassword, setShowPassword] = React.useState(false)

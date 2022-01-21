@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Formik, FormikHelpers, FormikProps, FormikValues } from 'formik';
 
@@ -10,8 +10,7 @@ import {
   useToast
 } from '@chakra-ui/react';
 
-import { AuthCredentials, AuthResponse } from '../models/auth';
-import { getResponsePayload, isResponseError, ReduxResponse } from '../models/shared';
+import { AuthCredentials } from '../models/auth';
 import { useAppDispatch } from '../features/hooks';
 import { setCredentials } from '../features/auth/authSlice';
 import { useLoginSurvivorMutation } from '../services';
@@ -25,16 +24,30 @@ const initialValues: AuthCredentials = {
 }
 
 function SurvivorLoginPage(): React.ReactElement {
+  const [loginSurvivor, { isSuccess, isError, data }] = useLoginSurvivorMutation();
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const toast = useToast();
-  const [loginSurvivor] = useLoginSurvivorMutation();
-  const dispatch = useAppDispatch();
 
-  const closeAndRedirect = () => {
+  const closeAndRedirect = useCallback(() => {
     onClose();
     navigate('/', { replace: true });
-  }
+  }, [onClose, navigate]);
+
+  useEffect(() => {
+    if (isError) {
+      toast(buildErrorToast(
+        'Login has failed',
+        'Incorrect system user name or password'
+      ));
+    }
+
+    if (isSuccess) {
+      dispatch(setCredentials(data));
+      closeAndRedirect();
+    }
+  }, [isError, isSuccess, toast, dispatch, data, closeAndRedirect]);
 
   return (
     <Modal
@@ -49,21 +62,7 @@ function SurvivorLoginPage(): React.ReactElement {
           validationSchema={survivorLoginSchema}
           onSubmit={(values: AuthCredentials, actions: FormikHelpers<AuthCredentials>) => {
             actions.setSubmitting(true);
-            loginSurvivor(values)
-              .then((response: ReduxResponse<AuthResponse>) => {
-                actions.setSubmitting(false);
-
-                if (isResponseError(response)) {
-                  toast(buildErrorToast(
-                    'Login has failed',
-                    'Incorrect system user name or password'
-                  ))
-                } else {
-                  actions.resetForm();
-                  dispatch(setCredentials(getResponsePayload(response)));
-                  closeAndRedirect();
-                }
-              });
+            loginSurvivor(values).finally(() => actions.setSubmitting(false));
           }}
         >
           {(formikProps: FormikProps<FormikValues>): React.ReactNode => (
