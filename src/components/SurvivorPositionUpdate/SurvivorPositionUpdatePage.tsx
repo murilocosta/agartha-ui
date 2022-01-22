@@ -1,11 +1,10 @@
-import React, { useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { Formik, FormikHelpers, FormikProps, FormikValues } from 'formik';
 
 import { Container, useToast } from '@chakra-ui/react';
 
 import { Location } from '../../models/location';
-import { useFetchSurvivorProfileQuery, useUpdateLocationMutation } from '../../services';
+import { useUpdateLocationMutation } from '../../services';
 import { buildSuccessToast } from '../../services/toastService';
 import survivorPositionSchema from '../../validators/survivorPositionSchema';
 
@@ -13,6 +12,8 @@ import AppPageHeader from '../AppPageHeader';
 import SurvivorPositionUpdateForm from './SurvivorPositionUpdateForm';
 import SurvivorPositionUpdateFormFallback from './SurvivorPositionUpdateFormFallback';
 import AppErrorBox from '../AppError/AppErrorBox';
+import { useAppSelector } from '../../features/hooks';
+import { selectProfile } from '../../features/survivor/survivorSlice';
 
 const initialValues: Location = {
   latitude: 0,
@@ -21,14 +22,9 @@ const initialValues: Location = {
 };
 
 function SurvivorPositionUpdatePage(): React.ReactElement {
-  const { data, isLoading, isError } = useFetchSurvivorProfileQuery();
   const [updateLocation, { isSuccess }] = useUpdateLocationMutation();
-  const navigate = useNavigate()
+  const survivorProfile = useAppSelector(selectProfile);
   const toast = useToast();
-
-  const redirectToLogin = useCallback(() => {
-    navigate('/login', { replace: false })
-  }, [navigate]);
 
   useEffect(() => {
     if (isSuccess) {
@@ -37,11 +33,9 @@ function SurvivorPositionUpdatePage(): React.ReactElement {
         "Updated the survivor's location"
       ));
     }
+  }, [isSuccess, toast]);
 
-    if (isError) {
-      redirectToLogin();
-    }
-  }, [isSuccess, isError, toast, redirectToLogin]);
+  console.log({ survivorProfile });
 
   return (
     <Container maxW='container.lg'>
@@ -50,21 +44,25 @@ function SurvivorPositionUpdatePage(): React.ReactElement {
 
       <AppPageHeader title={'Change Location'} />
 
-      <Formik
-        initialValues={data?.position || initialValues}
-        validationSchema={survivorPositionSchema}
-        onSubmit={(values: Location, actions: FormikHelpers<Location>) => {
-          actions.setSubmitting(true);
-          const payload = { survivor_id: data?.id, position: values };
-          updateLocation(payload).finally(() => actions.setSubmitting(false));
-        }}
-      >
-        {(formikProps: FormikProps<FormikValues>): React.ReactNode => isLoading ? (
-          <SurvivorPositionUpdateFormFallback />
-        ) : (
-          <SurvivorPositionUpdateForm {...formikProps} />
-        )}
-      </Formik>
+      {survivorProfile !== undefined ? (
+        <Formik
+          initialValues={survivorProfile?.position || initialValues}
+          validationSchema={survivorPositionSchema}
+          onSubmit={(values: Location, actions: FormikHelpers<Location>) => {
+            actions.setSubmitting(true);
+            const payload = { survivor_id: survivorProfile?.id, position: values };
+            updateLocation(payload).finally(() => actions.setSubmitting(false));
+          }}
+        >
+          {(formikProps: FormikProps<FormikValues>): React.ReactNode => (
+            <SurvivorPositionUpdateForm {...formikProps} />
+          )}
+        </Formik>
+      ) : (
+        <SurvivorPositionUpdateFormFallback />
+      )}
+
+
     </Container>
   );
 }

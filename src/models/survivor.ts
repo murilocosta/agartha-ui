@@ -1,4 +1,5 @@
 import { Location } from "./location";
+import { SortType } from "./shared";
 
 export enum SurvivorGender {
   Male = 'Male',
@@ -28,4 +29,37 @@ export interface SurvivorWrite extends SurvivorPayload {
 
 export interface SurvivorResponse {
   survivor: SurvivorRead;
+}
+
+export interface SurvivorFilter {
+  name?: string;
+  sort?: SortType;
+  page?: number;
+  page_items?: number;
+}
+
+export function buildSurvivorFilterQuery(filter?: SurvivorFilter): string {
+  if (!filter) {
+    return '';
+  }
+
+  const query = [];
+
+  if (filter.name) {
+    query.push(`name=${filter.name}`);
+  }
+
+  if (filter.sort) {
+    query.push(`sort=${filter.sort}`);
+  }
+
+  if (filter.page) {
+    query.push(`page=${filter.page}`);
+  }
+
+  if (query.length === 0) {
+    return '';
+  }
+
+  return '?' + query.join('&');
 }

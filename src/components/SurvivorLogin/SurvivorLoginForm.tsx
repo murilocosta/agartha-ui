@@ -16,6 +16,7 @@ import {
   ModalFooter,
   ModalHeader
 } from '@chakra-ui/react';
+import AppErrorBox from '../AppError/AppErrorBox';
 
 function SurvivorLoginForm(props: FormikProps<FormikValues>): React.ReactElement {
   return (
@@ -25,6 +26,9 @@ function SurvivorLoginForm(props: FormikProps<FormikValues>): React.ReactElement
       <ModalCloseButton />
 
       <ModalBody paddingBottom={6}>
+        <AppErrorBox />
+        <br />
+
         <FormControl>
           <FormLabel htmlFor='username'>{'System User Name'}</FormLabel>
           <Field

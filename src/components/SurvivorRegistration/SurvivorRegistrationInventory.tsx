@@ -16,6 +16,7 @@ import SurvivorRegistrationInventoryList from './SurvivorRegistrationInventoryLi
 
 function SurvivorRegistrationInventory(props: FormikProps<FormikValues>): React.ReactElement {
   const [nameFilter, setNameFilter] = useState('');
+  const [confirmedNameFilter, setConfirmedNameFilter] = useState('');
 
   return (
     <>
@@ -24,12 +25,16 @@ function SurvivorRegistrationInventory(props: FormikProps<FormikValues>): React.
         <HStack spacing={1}>
           <Input id='filter' type='text' onChange={(event) => setNameFilter(event.target.value)} />
           <Spacer />
-          <IconButton aria-label={'Filter items'} icon={<SearchIcon />} />
+          <IconButton
+            aria-label={'Filter items'}
+            icon={<SearchIcon />}
+            onClick={() => setConfirmedNameFilter(nameFilter)}
+          />
         </HStack>
       </FormControl>
 
       <FormControl isInvalid={getIn(props.errors, 'survivor.inventory') && getIn(props.touched, 'survivor.inventory')}>
-        <SurvivorRegistrationInventoryList nameFilter={nameFilter} {...props} />
+        <SurvivorRegistrationInventoryList nameFilter={confirmedNameFilter} {...props} />
         <FormErrorMessage>{'Must select at least one item'}</FormErrorMessage>
       </FormControl>
     </>

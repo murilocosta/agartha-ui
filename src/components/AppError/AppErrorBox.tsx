@@ -10,7 +10,7 @@ function AppErrorBox(): React.ReactElement {
   const dispatch = useAppDispatch();
 
   if (errorMessage) {
-    setTimeout(() => dispatch(setError(undefined)), 5000);
+    setTimeout(() => dispatch(setError(undefined)), 6000);
   }
 
   return (

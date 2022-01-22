@@ -1,11 +1,5 @@
 import { SortType } from "./shared";
 
-export interface ItemFilter {
-  name: string;
-  sort: SortType;
-  page: number;
-}
-
 export enum ItemIconType {
   Food = 'food-icon',
   Medicine = 'medicine-icon',
@@ -31,6 +25,12 @@ export interface ItemRead {
   icon: ItemIconType;
   price: number;
   rarity: ItemRarity;
+}
+
+export interface ItemFilter {
+  name?: string;
+  sort?: SortType;
+  page?: number;
 }
 
 export function buildItemFilterQuery(filter?: ItemFilter): string {

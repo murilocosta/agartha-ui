@@ -5,9 +5,10 @@ import { setError } from '../features/errorHandler/errorHandlerSlice';
 import { RootState } from '../features/store';
 import { AuthCredentials, AuthResponse, AuthSignUp } from '../models/auth';
 import { buildErrorMessage } from '../models/error';
+import { ReportedInfection } from '../models/infection';
 import { buildItemFilterQuery, ItemFilter, ItemRead } from '../models/item';
 import { SurvivorLocationWrite } from '../models/location';
-import { SurvivorRead, SurvivorResponse } from '../models/survivor';
+import { buildSurvivorFilterQuery, SurvivorFilter, SurvivorRead, SurvivorResponse } from '../models/survivor';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:8080/api/',
@@ -28,9 +29,9 @@ const appBaseQuery = async (
   extraOptions: any
 ) => {
   const response = await baseQuery(args, baseQueryAPI, extraOptions);
-  if (response.error && response.error.data) {
+  if (response.error !== undefined && response.error.data !== undefined) {
     baseQueryAPI.dispatch(setError(response.error.data));
-  } else if (response.error) {
+  } else if (response.error !== undefined) {
     baseQueryAPI.dispatch(setError(buildErrorMessage('Could not send request to server')));
   }
   return response;
@@ -49,7 +50,7 @@ export const agarthaAPI = createApi({
     }),
 
     loginSurvivor: builder.mutation<AuthResponse, Partial<AuthCredentials>>({
-      query: (body: AuthCredentials): any => ({ url: 'login', method: 'POST', body })
+      query: (body: AuthCredentials): any => ({ url: 'login', method: 'POST', body }),
     }),
 
     fetchSurvivorProfile: builder.query<SurvivorRead, void>({
@@ -66,7 +67,19 @@ export const agarthaAPI = createApi({
         method: 'PUT',
         body: payload.position,
       })
-    })
+    }),
+
+    fetchSurvivorList: builder.query<SurvivorRead[], SurvivorFilter>({
+      query: (survivorFilter: SurvivorFilter) => 'survivors' + buildSurvivorFilterQuery(survivorFilter),
+    }),
+
+    flagInfected: builder.mutation<void, Partial<ReportedInfection>>({
+      query: (body: ReportedInfection): any => ({
+        url: 'survivors/report-infection',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -76,5 +89,7 @@ export const {
   useLoginSurvivorMutation,
   useFetchSurvivorProfileQuery,
   useFetchSurvivorDetailsQuery,
+  useFetchSurvivorListQuery,
   useUpdateLocationMutation,
+  useFlagInfectedMutation,
 } = agarthaAPI;
