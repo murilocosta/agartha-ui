@@ -2,27 +2,29 @@ import React from 'react';
 import { FormikProps, FormikValues } from 'formik';
 
 import { useDisclosure, VStack } from '@chakra-ui/react';
+import { MdFlag } from 'react-icons/md';
 
-import { SurvivorRead } from '../../models/survivor';
+import { useAppSelector } from '../../features/hooks';
+import { selectProfile } from '../../features/survivor/survivorSlice';
 import { useFetchSurvivorListQuery } from '../../services';
 
 import FlagInfectedSurvivorListFallback from './FlagInfectedSurvivorListFallback';
-import FlagInfectedSurvivorListItem from './FlagInfectedSurvivorListItem';
-import FlagInfectedSurvivorModal from './FlagInfectedSurvivorModal';
-import { useAppSelector } from '../../features/hooks';
-import { selectProfile } from '../../features/survivor/survivorSlice';
 
-export interface SurvivorListProps extends FormikProps<FormikValues> {
+import FlagInfectedSurvivorModal from './FlagInfectedSurvivorModal';
+import SurvivorList from '../SurvivorList/SurvivorList';
+import { SurvivorRead } from '../../models/survivor';
+
+export interface InfectedSurvivorListProps extends FormikProps<FormikValues> {
   nameFilter?: string;
 }
 
-function FlagInfectedSurvivorList(props: SurvivorListProps): React.ReactElement<SurvivorListProps> {
+function FlagInfectedSurvivorList(props: InfectedSurvivorListProps): React.ReactElement<InfectedSurvivorListProps> {
   const { data, isLoading, isFetching } = useFetchSurvivorListQuery({ name: props.nameFilter });
   const { isOpen, onClose, onOpen } = useDisclosure();
   const survivorProfile = useAppSelector(selectProfile);
 
-  const onSelectSurvivor = (reported_id: number) => {
-    props.setFieldValue('reported_id', reported_id);
+  const onSelectSurvivor = ({ id }: SurvivorRead) => {
+    props.setFieldValue('reported_id', id);
     props.setFieldValue('reportee_id', survivorProfile?.id);
     onOpen();
   };
@@ -38,11 +40,15 @@ function FlagInfectedSurvivorList(props: SurvivorListProps): React.ReactElement<
 
   return (
     <VStack spacing={4}>
-      {data && data.length > 0 ? (
-        data.map((survivor: SurvivorRead) => (
-          <FlagInfectedSurvivorListItem key={survivor.id} survivor={survivor} onSelect={onSelectSurvivor} />
-        ))
-      ) : <></>}
+      <SurvivorList
+        buttonConfig={{
+          buttonIcon: <MdFlag />,
+          buttonColor: 'red',
+          buttonText: 'Report'
+        }}
+        survivorList={data}
+        onSelectSurvivor={onSelectSurvivor}
+      />
 
       <FlagInfectedSurvivorModal
         isOpen={isOpen}

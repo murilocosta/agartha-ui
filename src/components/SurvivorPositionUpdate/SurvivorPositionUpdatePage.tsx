@@ -35,8 +35,6 @@ function SurvivorPositionUpdatePage(): React.ReactElement {
     }
   }, [isSuccess, toast]);
 
-  console.log({ survivorProfile });
-
   return (
     <Container maxW='container.lg'>
       <AppErrorBox />
