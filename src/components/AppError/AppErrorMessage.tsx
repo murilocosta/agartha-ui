@@ -1,7 +1,8 @@
 import { Stack } from '@chakra-ui/react';
 import React from 'react';
 
-import { ErrorMessage, ErrorDetail } from '../models/error';
+import { ErrorMessage, ErrorDetail } from '../../models/error';
+
 import AppErrorDetail from './AppErrorDetail';
 
 export interface AppErrorMessageProps {

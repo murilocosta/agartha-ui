@@ -3,12 +3,14 @@ import { Formik, FormikHelpers, FormikProps, FormikValues } from 'formik';
 
 import { Container, useToast } from '@chakra-ui/react';
 
-import { LEAFLET_DEFAULTS } from '../constants/leafletDefaults';
-import { AuthSignUp } from '../models/auth';
-import authSignUpSchema from '../validators/survivorRegistrationSchema';
+import { LEAFLET_DEFAULTS } from '../../constants/leafletDefaults';
+import { AuthSignUp } from '../../models/auth';
+import { useRegisterSurvivorMutation } from '../../services';
+import { buildSuccessToast } from '../../services/toastService';
+import authSignUpSchema from '../../validators/survivorRegistrationSchema';
+
 import SurvivorRegistrationContainer from './SurvivorRegistrationContainer';
-import { useRegisterSurvivorMutation } from '../services';
-import { buildSuccessToast } from '../services/toastService';
+import AppErrorBox from '../AppError/AppErrorBox';
 
 const initialValues: AuthSignUp = {
   username: '',
@@ -42,6 +44,9 @@ function SurvivorRegistrationPage(): React.ReactElement {
 
   return (
     <Container maxW='container.xl'>
+      <AppErrorBox />
+      <br />
+
       <Formik
         initialValues={initialValues}
         validationSchema={authSignUpSchema}

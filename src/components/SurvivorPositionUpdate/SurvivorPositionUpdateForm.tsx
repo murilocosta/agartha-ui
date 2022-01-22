@@ -18,7 +18,8 @@ import {
   buildLocationString,
   Location,
   convertLocation
-} from '../models/location';
+} from '../../models/location';
+
 import SurvivorPositionUpdateMap from './SurvivorPositionUpdateMap';
 
 function SurvivorPositionUpdateForm(props: FormikProps<FormikValues>): React.ReactElement {

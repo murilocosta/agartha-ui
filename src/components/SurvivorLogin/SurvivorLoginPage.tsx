@@ -1,21 +1,25 @@
 import React, { useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Formik, FormikHelpers, FormikProps, FormikValues } from 'formik';
+import {
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  FormikValues
+} from 'formik';
 
 import {
   Modal,
   ModalContent,
   ModalOverlay,
-  useDisclosure,
-  useToast
+  useDisclosure
 } from '@chakra-ui/react';
 
-import { AuthCredentials } from '../models/auth';
-import { useAppDispatch } from '../features/hooks';
-import { setCredentials } from '../features/auth/authSlice';
-import { useLoginSurvivorMutation } from '../services';
-import { buildErrorToast } from '../services/toastService';
-import survivorLoginSchema from '../validators/survivorLoginSchema';
+import { useAppDispatch } from '../../features/hooks';
+import { setCredentials } from '../../features/auth/authSlice';
+import { AuthCredentials } from '../../models/auth';
+import { useLoginSurvivorMutation } from '../../services';
+import survivorLoginSchema from '../../validators/survivorLoginSchema';
+
 import SurvivorLoginForm from './SurvivorLoginForm';
 
 const initialValues: AuthCredentials = {
@@ -24,35 +28,37 @@ const initialValues: AuthCredentials = {
 }
 
 function SurvivorLoginPage(): React.ReactElement {
-  const [loginSurvivor, { isSuccess, isError, data }] = useLoginSurvivorMutation();
+  const [loginSurvivor, { isSuccess, data }] = useLoginSurvivorMutation();
   const { isOpen, onClose } = useDisclosure({ defaultIsOpen: true });
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const toast = useToast();
 
-  const closeAndRedirect = useCallback(() => {
+  const closeAndRedirectToHome = useCallback(() => {
     onClose();
     navigate('/', { replace: true });
   }, [onClose, navigate]);
 
-  useEffect(() => {
-    if (isError) {
-      toast(buildErrorToast(
-        'Login has failed',
-        'Incorrect system user name or password'
-      ));
-    }
+  const closeAndRedirectToLastURL = useCallback(() => {
+    onClose();
+    navigate(-1);
+  }, [onClose, navigate]);
 
+  useEffect(() => {
     if (isSuccess) {
       dispatch(setCredentials(data));
-      closeAndRedirect();
+      closeAndRedirectToLastURL();
     }
-  }, [isError, isSuccess, toast, dispatch, data, closeAndRedirect]);
+  }, [
+    isSuccess,
+    dispatch,
+    data,
+    closeAndRedirectToLastURL]
+  );
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={closeAndRedirect}
+      onClose={closeAndRedirectToHome}
     >
       <ModalOverlay />
 

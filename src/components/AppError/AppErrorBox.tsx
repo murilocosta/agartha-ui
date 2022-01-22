@@ -1,7 +1,8 @@
 import React from 'react';
 
-import { selectError, setError } from '../features/errorHandler/errorHandlerSlice';
-import { useAppDispatch, useAppSelector } from '../features/hooks';
+import { selectError, setError } from '../../features/errorHandler/errorHandlerSlice';
+import { useAppDispatch, useAppSelector } from '../../features/hooks';
+
 import AppMessages from './AppErrorMessage';
 
 function AppErrorBox(): React.ReactElement {
@@ -9,7 +10,7 @@ function AppErrorBox(): React.ReactElement {
   const dispatch = useAppDispatch();
 
   if (errorMessage) {
-    setTimeout(() => dispatch(setError(undefined)), 5000);
+    setTimeout(() => dispatch(setError(undefined)), 6000);
   }
 
   return (
