@@ -14,15 +14,17 @@ import {
 import { NavigationItem, ANONYMOUS_USER_MENU_ITEMS, AUTHENTICATED_USER_MENU_ITEMS } from '../../constants/navigationItemList';
 import { isAuthenticated } from '../../features/auth/authSlice';
 import { useAppSelector } from '../../features/hooks';
+import { selectProfile } from '../../features/survivor/survivorSlice';
 
 function AppHeaderProfile(): React.ReactElement {
+  const profile = useAppSelector(selectProfile);
   const isLoggedIn = useAppSelector(isAuthenticated);
   const userMenuItems = isLoggedIn ? AUTHENTICATED_USER_MENU_ITEMS : ANONYMOUS_USER_MENU_ITEMS;
 
   return (
     <Menu>
       <MenuButton as={Button} rounded={'full'} variant={'link'} cursor={'pointer'} minW={0}>
-        <Avatar size={'sm'} />
+        <Avatar size={'sm'} name={profile?.name} />
       </MenuButton>
 
       <MenuList>

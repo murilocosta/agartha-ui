@@ -27,4 +27,4 @@ function SurvivorList(props: SurvivorListProps): React.ReactElement<SurvivorList
   );
 }
 
-export default SurvivorList
+export default SurvivorList;

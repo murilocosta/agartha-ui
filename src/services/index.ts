@@ -6,9 +6,15 @@ import { RootState } from '../features/store';
 import { AuthCredentials, AuthResponse, AuthSignUp } from '../models/auth';
 import { buildErrorMessage } from '../models/error';
 import { ReportedInfection } from '../models/infection';
+import { InventoryRead } from '../models/inventory';
 import { buildItemFilterQuery, ItemFilter, ItemRead } from '../models/item';
 import { SurvivorLocationWrite } from '../models/location';
-import { buildSurvivorFilterQuery, SurvivorFilter, SurvivorRead, SurvivorResponse } from '../models/survivor';
+import {
+  buildSurvivorFilterQuery,
+  SurvivorFilter,
+  SurvivorRead,
+  SurvivorResponse
+} from '../models/survivor';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:8080/api/',
@@ -80,6 +86,21 @@ export const agarthaAPI = createApi({
         body,
       }),
     }),
+
+    fetchSurvivorInventory: builder.query<InventoryRead, number>({
+      queryFn: (
+        survivorId: number,
+        api: BaseQueryApi,
+        extraOptions,
+        baseQuery
+      ): any => {
+        if (!!survivorId) {
+          return baseQuery(`survivors/${survivorId}/items`);
+        }
+
+        return { error: { status: 'FETCH_ERROR', error: 'Could not fetch inventory' } };
+      }
+    }),
   }),
 });
 
@@ -92,4 +113,5 @@ export const {
   useFetchSurvivorListQuery,
   useUpdateLocationMutation,
   useFlagInfectedMutation,
+  useFetchSurvivorInventoryQuery,
 } = agarthaAPI;

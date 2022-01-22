@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { Formik, FormikHelpers, FormikProps, FormikValues } from 'formik';
 
-import { Container, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 
 import { Location } from '../../models/location';
 import { useUpdateLocationMutation } from '../../services';
 import { buildSuccessToast } from '../../services/toastService';
 import survivorPositionSchema from '../../validators/survivorPositionSchema';
 
-import AppPageHeader from '../AppPageHeader';
+import AppSection from '../AppSection';
 import SurvivorPositionUpdateForm from './SurvivorPositionUpdateForm';
 import SurvivorPositionUpdateFormFallback from './SurvivorPositionUpdateFormFallback';
-import AppErrorBox from '../AppError/AppErrorBox';
+
 import { useAppSelector } from '../../features/hooks';
 import { selectProfile } from '../../features/survivor/survivorSlice';
 
@@ -36,12 +36,7 @@ function SurvivorPositionUpdatePage(): React.ReactElement {
   }, [isSuccess, toast]);
 
   return (
-    <Container maxW='container.lg'>
-      <AppErrorBox />
-      <br />
-
-      <AppPageHeader title={'Change Location'} />
-
+    <AppSection pageHeader={'Change Location'}>
       {survivorProfile !== undefined ? (
         <Formik
           initialValues={survivorProfile?.position || initialValues}
@@ -59,9 +54,7 @@ function SurvivorPositionUpdatePage(): React.ReactElement {
       ) : (
         <SurvivorPositionUpdateFormFallback />
       )}
-
-
-    </Container>
+    </AppSection>
   );
 }
 

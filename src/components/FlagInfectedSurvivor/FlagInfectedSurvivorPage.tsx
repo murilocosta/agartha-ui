@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
 import { Formik, FormikHelpers, FormikProps, FormikValues } from 'formik';
 
-import { Container, useToast } from '@chakra-ui/react';
+import { useToast } from '@chakra-ui/react';
 
 import { ReportedInfection } from '../../models/infection';
 import { useFlagInfectedMutation } from '../../services';
+import { buildSuccessToast } from '../../services/toastService';
 import flagInfectedSurvivorSchema from '../../validators/flagInfectedSurvivorSchema';
 
-import AppPageHeader from '../AppPageHeader';
-import AppErrorBox from '../AppError/AppErrorBox';
+import AppSection from '../AppSection';
 import FlagInfectedSurvivorForm from './FlagInfectedSurvivorForm';
-import { buildSuccessToast } from '../../services/toastService';
 
 const initialValues: ReportedInfection = {
   reported_id: 0,
@@ -32,12 +31,7 @@ function FlagInfectedSurvivorPage(): React.ReactElement {
   }, [isSuccess, toast])
 
   return (
-    <Container maxW='container.lg' marginBottom={5}>
-      <AppErrorBox />
-      <br />
-
-      <AppPageHeader title={'Report survivor'} />
-
+    <AppSection pageHeader={'Report Survivor'}>
       <Formik
         initialValues={initialValues}
         validationSchema={flagInfectedSurvivorSchema}
@@ -50,7 +44,7 @@ function FlagInfectedSurvivorPage(): React.ReactElement {
           <FlagInfectedSurvivorForm {...formikProps} />
         )}
       </Formik>
-    </Container>
+    </AppSection>
   );
 }
 
