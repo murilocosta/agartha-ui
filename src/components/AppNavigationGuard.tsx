@@ -20,7 +20,7 @@ function AppNavigationGuard(): React.ReactElement {
       dispatch(setProfile(data));
     }
 
-    if (!isLoggedIn && isError) {
+    if (!isLoggedIn || isError) {
       navigate('/login', { replace: false, state: { from: location } });
     }
   }, [
@@ -33,7 +33,7 @@ function AppNavigationGuard(): React.ReactElement {
     location
   ]);
 
-  if (!isLoggedIn || isLoading) {
+  if (isLoading) {
     return <Progress size='sm' isIndeterminate />;
   }
 

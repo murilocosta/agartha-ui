@@ -3,7 +3,7 @@ import React from 'react';
 import { selectError, setError } from '../../features/errorHandler/errorHandlerSlice';
 import { useAppDispatch, useAppSelector } from '../../features/hooks';
 
-import AppMessages from './AppErrorMessage';
+import AppErrorMessage from './AppErrorMessage';
 
 function AppErrorBox(): React.ReactElement {
   const errorMessage = useAppSelector(selectError);
@@ -14,7 +14,7 @@ function AppErrorBox(): React.ReactElement {
   }
 
   return (
-    <AppMessages errorMessage={errorMessage} />
+    <AppErrorMessage errorMessage={errorMessage} />
   );
 }
 

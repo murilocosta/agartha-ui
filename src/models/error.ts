@@ -1,6 +1,7 @@
 export interface ErrorDetail {
   name: string;
   reason: string;
+  hidden?: boolean;
 }
 
 export interface ErrorMessage {
@@ -8,6 +9,7 @@ export interface ErrorMessage {
   detail: string;
   status: number;
   errors?: ErrorDetail[];
+  hidden?: boolean;
 }
 
 export function buildErrorMessage(customMessage: string): ErrorMessage {

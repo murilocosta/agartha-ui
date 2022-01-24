@@ -5,6 +5,7 @@ import { agarthaAPI } from '../services';
 import errorHandlerReducer from './errorHandler/errorHandlerSlice';
 import authReducer from './auth/authSlice';
 import survivorReducer from './survivor/survivorSlice';
+import tradeReducer from './trade/tradeSlice';
 
 const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
     errorHandler: errorHandlerReducer,
     auth: authReducer,
     survivor: survivorReducer,
+    trade: tradeReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(agarthaAPI.middleware),
 });

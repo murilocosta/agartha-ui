@@ -14,12 +14,16 @@ function AppErrorMessage({ errorMessage }: AppErrorMessageProps): React.ReactEle
     return errorMessage.errors && errorMessage.errors.length > 1
       ? (
         <Stack spacing={3}>
-          {errorMessage.errors.map(({ name, reason }: ErrorDetail, index: number) => (
-            <AppErrorDetail key={index} title={name} description={reason} />
+          {errorMessage.errors.map(({ name, reason, hidden }: ErrorDetail, index: number) => (
+            hidden === true ? (<></>) : (
+              <AppErrorDetail key={index} title={name} description={reason} />
+            )
           ))}
         </Stack>
       ) : (
-        <AppErrorDetail title={errorMessage.errorType} description={errorMessage.detail} />
+        errorMessage.hidden === true ? (<></>) : (
+          <AppErrorDetail title={errorMessage.errorType} description={errorMessage.detail} />
+        )
       );
   }
 

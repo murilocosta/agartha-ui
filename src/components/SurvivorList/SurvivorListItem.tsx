@@ -1,17 +1,22 @@
 import React from 'react';
-import { MdFlag } from 'react-icons/md';
-import { FormikProps, FormikValues } from 'formik';
 
 import { Avatar, Button, Center, Grid, GridItem } from '@chakra-ui/react';
 
 import { SurvivorRead } from '../../models/survivor';
 
-export interface SurvivorListItemProps {
-  survivor: SurvivorRead;
-  onSelect(reported_id: number): void;
+export interface SurvivorListButtonConfig {
+  buttonIcon: React.ReactElement;
+  buttonText: string;
+  buttonColor: string;
 }
 
-function FlagInfectedSurvivorListItem(props: SurvivorListItemProps): React.ReactElement<SurvivorListItemProps> {
+export interface SurvivorListItemProps {
+  buttonConfig: SurvivorListButtonConfig;
+  survivor: SurvivorRead;
+  onSelect(selected: SurvivorRead): void;
+}
+
+function SurvivorListItem(props: SurvivorListItemProps): React.ReactElement<SurvivorListItemProps> {
   return (
     <Grid
       templateColumns='repeat(5, 1fr)'
@@ -43,11 +48,11 @@ function FlagInfectedSurvivorListItem(props: SurvivorListItemProps): React.React
       <GridItem>
         <Center h={'100%'}>
           <Button
-            colorScheme={'red'}
-            leftIcon={<MdFlag />}
-            onClick={() => props.onSelect(props.survivor.id)}
+            colorScheme={props.buttonConfig.buttonColor}
+            leftIcon={props.buttonConfig.buttonIcon}
+            onClick={() => props.onSelect(props.survivor)}
           >
-            {'Report'}
+            {props.buttonConfig.buttonText}
           </Button>
         </Center>
       </GridItem>
@@ -55,4 +60,4 @@ function FlagInfectedSurvivorListItem(props: SurvivorListItemProps): React.React
   );
 }
 
-export default FlagInfectedSurvivorListItem;
+export default SurvivorListItem;
