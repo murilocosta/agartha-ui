@@ -12,13 +12,23 @@ export interface TradeResourceWrite {
 }
 
 export interface TradeInventoryWrite {
-  survivor_id: number;
+  survivor_id?: number;
   items: TradeResourceWrite[];
 }
 
 export interface TradeWrite {
-  sender: TradeInventoryWrite;
-  receiver: TradeInventoryWrite;
+  sender?: TradeInventoryWrite;
+  receiver?: TradeInventoryWrite;
+}
+
+export interface TradeSelectedSurvivor {
+  senderId?: number;
+  receiverId?: number;
+}
+
+export interface TradeSelectedItems {
+  senderItems: TradeResourceWrite[];
+  receiverItems: TradeResourceWrite[];
 }
 
 export interface TradeRejectWrite {
@@ -46,6 +56,9 @@ export interface TradeHistoryItemRead {
 export interface TradeRead {
   id: number;
   status: TradeStatus;
+}
+
+export interface TradeResourcesRead extends TradeRead {
   sender: TradeHistorySurvivorRead;
   receiver: TradeHistorySurvivorRead;
   sender_items: TradeHistoryItemRead[];

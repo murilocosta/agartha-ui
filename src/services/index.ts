@@ -1,10 +1,12 @@
 import { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
+import { setCredentials } from '../features/auth/authSlice';
 import { setError } from '../features/errorHandler/errorHandlerSlice';
 import { RootState } from '../features/store';
+import { setProfile } from '../features/survivor/survivorSlice';
 import { AuthCredentials, AuthResponse, AuthSignUp } from '../models/auth';
-import { buildErrorMessage } from '../models/error';
+import { buildErrorMessage, ErrorMessage } from '../models/error';
 import { ReportedInfection } from '../models/infection';
 import { InventoryRead } from '../models/inventory';
 import { buildItemFilterQuery, ItemFilter, ItemRead } from '../models/item';
@@ -15,6 +17,7 @@ import {
   SurvivorRead,
   SurvivorResponse
 } from '../models/survivor';
+import { TradeRead, TradeWrite } from '../models/trade';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:8080/api/',
@@ -35,17 +38,32 @@ const appBaseQuery = async (
   extraOptions: any
 ) => {
   const response = await baseQuery(args, baseQueryAPI, extraOptions);
-  if (response.error !== undefined && response.error.data !== undefined) {
-    baseQueryAPI.dispatch(setError(response.error.data));
-  } else if (response.error !== undefined) {
+
+  if (response.error?.data !== undefined) {
+    if ((response.error.data as ErrorMessage).errorType.match(/^AG(B|V)/)) {
+      baseQueryAPI.dispatch(setError(response.error.data));
+    }
+
+    if (response.error.status === 401) {
+      baseQueryAPI.dispatch(setCredentials(undefined));
+      baseQueryAPI.dispatch(setProfile(undefined));
+    }
+
+    return response;
+  }
+
+  if (response.error !== undefined) {
     baseQueryAPI.dispatch(setError(buildErrorMessage('Could not send request to server')));
   }
+
   return response;
 }
 
 export const agarthaAPI = createApi({
   reducerPath: 'agarthaAPI',
+
   baseQuery: appBaseQuery,
+
   endpoints: (builder) => ({
     getItems: builder.query<ItemRead[], ItemFilter | null>({
       query: (filter: ItemFilter) => 'items' + buildItemFilterQuery(filter),
@@ -101,6 +119,14 @@ export const agarthaAPI = createApi({
         return { error: { status: 'FETCH_ERROR', error: 'Could not fetch inventory' } };
       }
     }),
+
+    tradeItems: builder.mutation<TradeRead, Partial<TradeWrite>>({
+      query: (body: TradeWrite): any => ({
+        url: '/trades',
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
@@ -114,4 +140,5 @@ export const {
   useUpdateLocationMutation,
   useFlagInfectedMutation,
   useFetchSurvivorInventoryQuery,
+  useTradeItemsMutation,
 } = agarthaAPI;

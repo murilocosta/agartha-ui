@@ -1,5 +1,17 @@
-import { Button, Modal, ModalBody, ModalCloseButton, ModalContent, ModalFooter, ModalHeader, ModalOverlay, Text } from '@chakra-ui/react';
 import React from 'react';
+
+import {
+  Button,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Text
+} from '@chakra-ui/react';
+import { MdCheck } from 'react-icons/md';
 
 export interface FlagInfectedModalProps {
   isOpen: boolean;
@@ -34,7 +46,7 @@ function FlagInfectedSurvivorModal(props: FlagInfectedModalProps): React.ReactEl
             {'Cancel'}
           </Button>
 
-          <Button onClick={props.onConfirm}>
+          <Button leftIcon={<MdCheck />} onClick={props.onConfirm}>
             {'Confirm'}
           </Button>
         </ModalFooter>

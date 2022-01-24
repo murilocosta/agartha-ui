@@ -1,15 +1,12 @@
 import React from "react";
 
-import { VStack } from "@chakra-ui/react";
-
 import { useAppSelector } from "../../features/hooks";
 import { selectProfile } from "../../features/survivor/survivorSlice";
-import { InventoryItemRead } from "../../models/inventory";
 import { useFetchSurvivorInventoryQuery } from "../../services";
 
 import AppSection from "../AppSection";
 import SurvivorInventoryListFallback from "./SurvivorInventoryListFallback";
-import SurvivorInventoryListItem from "./SurvivorInventoryListItem";
+import SurvivorInventoryList from "./SurvivorInventoryList";
 
 function SurvivorInventoryPage(): React.ReactElement {
   const survivorProfile = useAppSelector(selectProfile);
@@ -21,15 +18,7 @@ function SurvivorInventoryPage(): React.ReactElement {
 
   return (
     <AppSection pageHeader={'Survivor Inventory'}>
-      <VStack gap={4}>
-        {data !== null && data !== undefined ? (
-          data.items.map((item: InventoryItemRead) => (
-            <SurvivorInventoryListItem key={item.resource_id} resource={item} />
-          ))
-        ) : (
-          <></>
-        )}
-      </VStack>
+      <SurvivorInventoryList inventory={data} />
     </AppSection>
   );
 }

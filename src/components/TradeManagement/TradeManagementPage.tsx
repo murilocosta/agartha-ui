@@ -20,7 +20,7 @@ function TradeManagementPage(): React.ReactElement {
         <TabList>
           <RouterLink to='/trades/select-survivor'>
             <Button marginBottom={3} leftIcon={<MdAdd />} bgColor={'orange.300'}>
-              {'New Offer'}
+              {'New Trade'}
             </Button>
           </RouterLink>
 

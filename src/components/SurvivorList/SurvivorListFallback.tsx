@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Skeleton, Stack } from '@chakra-ui/react';
 
-function FlagInfectedSurvivorListFallback(): React.ReactElement {
+function SurvivorListFallback(): React.ReactElement {
   return (
     <Stack spacing={3}>
       <Skeleton height='90px' />
@@ -14,4 +14,4 @@ function FlagInfectedSurvivorListFallback(): React.ReactElement {
   );
 }
 
-export default FlagInfectedSurvivorListFallback;
+export default SurvivorListFallback;

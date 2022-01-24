@@ -6,13 +6,12 @@ import { MdFlag } from 'react-icons/md';
 
 import { useAppSelector } from '../../features/hooks';
 import { selectProfile } from '../../features/survivor/survivorSlice';
+import { SurvivorRead } from '../../models/survivor';
 import { useFetchSurvivorListQuery } from '../../services';
 
-import FlagInfectedSurvivorListFallback from './FlagInfectedSurvivorListFallback';
-
-import FlagInfectedSurvivorModal from './FlagInfectedSurvivorModal';
+import SurvivorListFallback from '../SurvivorList/SurvivorListFallback';
 import SurvivorList from '../SurvivorList/SurvivorList';
-import { SurvivorRead } from '../../models/survivor';
+import FlagInfectedSurvivorModal from './FlagInfectedSurvivorModal';
 
 export interface InfectedSurvivorListProps extends FormikProps<FormikValues> {
   nameFilter?: string;
@@ -35,7 +34,7 @@ function FlagInfectedSurvivorList(props: InfectedSurvivorListProps): React.React
   }
 
   if (isLoading || isFetching) {
-    return <FlagInfectedSurvivorListFallback />;
+    return <SurvivorListFallback />;
   }
 
   return (
