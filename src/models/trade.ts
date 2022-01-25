@@ -4,6 +4,7 @@ export enum TradeStatus {
   TradeOpen = 'Open',
   TradeAccepted = 'Accepted',
   TradeRejected = 'Rejected',
+  TradeCancelled = 'Cancelled',
 }
 
 export interface TradeResourceWrite {
@@ -49,6 +50,7 @@ export interface TradeHistorySurvivorRead {
 }
 
 export interface TradeHistoryItemRead {
+  item_icon: string;
   item_name: string;
   item_quantity: number;
 }
@@ -63,4 +65,5 @@ export interface TradeResourcesRead extends TradeRead {
   receiver: TradeHistorySurvivorRead;
   sender_items: TradeHistoryItemRead[];
   receiver_items: TradeHistoryItemRead[];
+  created_at?: Date;
 }
