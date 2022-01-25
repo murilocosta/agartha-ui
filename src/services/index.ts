@@ -17,7 +17,12 @@ import {
   SurvivorRead,
   SurvivorResponse
 } from '../models/survivor';
-import { TradeRead, TradeWrite } from '../models/trade';
+import {
+  TradeRead,
+  TradeRejectWrite,
+  TradeResourcesRead,
+  TradeWrite
+} from '../models/trade';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: 'http://localhost:8080/api/',
@@ -63,6 +68,8 @@ export const agarthaAPI = createApi({
   reducerPath: 'agarthaAPI',
 
   baseQuery: appBaseQuery,
+
+  tagTypes: ['Trade'],
 
   endpoints: (builder) => ({
     getItems: builder.query<ItemRead[], ItemFilter | null>({
@@ -126,6 +133,54 @@ export const agarthaAPI = createApi({
         method: 'POST',
         body,
       }),
+
+      invalidatesTags: ['Trade'],
+    }),
+
+    fetchTradeHistory: builder.query<TradeResourcesRead[], number>({
+      queryFn: (
+        survivorId: number,
+        api: BaseQueryApi,
+        extraOptions,
+        baseQuery
+      ): any => {
+        if (!!survivorId) {
+          return baseQuery(`survivors/${survivorId}/trades`);
+        }
+
+        return { error: { status: 'FETCH_ERROR', error: 'Could not fetch trade history' } };
+      },
+
+      providesTags: ['Trade'],
+    }),
+
+    tradeAccept: builder.mutation<TradeRead, number>({
+      query: (tradeId: number): any => ({
+        url: `trades/${tradeId}/accept`,
+        method: 'POST',
+      }),
+
+      invalidatesTags: ['Trade'],
+    }),
+
+    tradeReject: builder.mutation<TradeRead, Partial<TradeRejectWrite>>({
+      query: (payload: TradeRejectWrite): any => ({
+        url: `trades/${payload.trade_id}/reject`,
+        method: 'POST',
+        body: { annotation: payload.annotation },
+      }),
+
+      invalidatesTags: ['Trade'],
+    }),
+
+    tradeCancel: builder.mutation<TradeRead, Partial<TradeRejectWrite>>({
+      query: (payload: TradeRejectWrite): any => ({
+        url: `trades/${payload.trade_id}/cancel`,
+        method: 'POST',
+        body: { annotation: payload.annotation },
+      }),
+
+      invalidatesTags: ['Trade'],
     }),
   }),
 });
@@ -141,4 +196,8 @@ export const {
   useFlagInfectedMutation,
   useFetchSurvivorInventoryQuery,
   useTradeItemsMutation,
+  useFetchTradeHistoryQuery,
+  useTradeAcceptMutation,
+  useTradeRejectMutation,
+  useTradeCancelMutation,
 } = agarthaAPI;

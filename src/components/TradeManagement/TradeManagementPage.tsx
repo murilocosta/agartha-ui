@@ -7,39 +7,53 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  Tabs
+  Tabs,
+  useBreakpointValue
 } from "@chakra-ui/react";
 import { MdAdd } from "react-icons/md";
 
+import { useAppSelector } from '../../features/hooks';
+import { selectProfile } from '../../features/survivor/survivorSlice';
+import { useFetchTradeHistoryQuery } from "../../services";
+
 import AppSection from "../AppSection";
+import TradeManagementTabHistory from "./TradeManagementTabHistory";
+import TradeManagementTabInbound from "./TradeManagementTabInbound";
+import TradeManagementTabOutbound from "./TradeManagementTabOutbound";
+
+type TabListOrientation = 'vertical' | 'horizontal';
 
 function TradeManagementPage(): React.ReactElement {
+  const profile = useAppSelector(selectProfile);
+  const { data, isLoading } = useFetchTradeHistoryQuery(profile?.id || 0);
+  const dynamicTabListOrientation = useBreakpointValue<TabListOrientation>({ base: 'horizontal', md: 'vertical' });
+
   return (
     <AppSection pageHeader={'Trade - Management'}>
-      <Tabs orientation={'vertical'} colorScheme={'orange'} variant={'soft-rounded'} isLazy>
-        <TabList>
-          <RouterLink to='/trades/select-survivor'>
-            <Button marginBottom={3} leftIcon={<MdAdd />} bgColor={'orange.300'}>
-              {'New Trade'}
-            </Button>
-          </RouterLink>
+      <RouterLink to='/trades/select-survivor'>
+        <Button bgColor={'orange.300'} leftIcon={<MdAdd />} marginBottom={3}>
+          {'New Trade'}
+        </Button>
+      </RouterLink>
 
-          <Tab>{'Trade History'}</Tab>
+      <Tabs orientation={dynamicTabListOrientation} colorScheme={'orange'} variant={'soft-rounded'} isLazy>
+        <TabList>
+          <Tab w={130}>{'Trade History'}</Tab>
           <Tab>{'Inbound'}</Tab>
           <Tab>{'Outbound'}</Tab>
         </TabList>
 
         <TabPanels>
           <TabPanel>
-            <p>{'@TODO TRADE HISTORY'}</p>
+            <TradeManagementTabHistory isLoading={isLoading} resourceList={data} />
           </TabPanel>
 
           <TabPanel>
-            <p>{'@TODO INBOUND'}</p>
+            <TradeManagementTabInbound isLoading={isLoading} resourceList={data} />
           </TabPanel>
 
           <TabPanel>
-            <p>{'@TODO OUTBOUND'}</p>
+            <TradeManagementTabOutbound isLoading={isLoading} resourceList={data} />
           </TabPanel>
         </TabPanels>
       </Tabs>

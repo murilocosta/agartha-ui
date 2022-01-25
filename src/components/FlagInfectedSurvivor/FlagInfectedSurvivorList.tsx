@@ -38,7 +38,7 @@ function FlagInfectedSurvivorList(props: InfectedSurvivorListProps): React.React
   }
 
   return (
-    <VStack spacing={4}>
+    <VStack spacing={4} marginBottom={4}>
       <SurvivorList
         buttonConfig={{
           buttonIcon: <MdFlag />,
