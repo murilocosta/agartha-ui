@@ -65,13 +65,12 @@ function TradeManagementInventoryPanel(props: InternalComponentProps): React.Rea
       return trade.sender.name;
     }
 
-    if (
-      [
-        InventoryPanelFilter.DISPLAY_HISTORY,
-        InventoryPanelFilter.DISPLAY_OUTBOUND
-      ].includes(props.filter)
-    ) {
+    if (props.filter === InventoryPanelFilter.DISPLAY_OUTBOUND) {
       return trade.receiver.name;
+    }
+
+    if (props.filter === InventoryPanelFilter.DISPLAY_HISTORY) {
+      return trade.sender.id === profile?.id ? trade.receiver.name : trade.sender.name;
     }
 
     return '';
@@ -82,13 +81,25 @@ function TradeManagementInventoryPanel(props: InternalComponentProps): React.Rea
       case InventoryPanelFilter.DISPLAY_HISTORY:
         switch (trade.status) {
           case TradeStatus.TradeAccepted:
-            return <Text><strong>{trade.receiver.name}</strong>{' has accepted your trade request'}</Text>;
+            if (trade.sender.id === profile?.id) {
+              return <Text><strong>{trade.receiver.name}</strong>{' has accepted your trade request'}</Text>;
+            } else {
+              return <Text>{'You accepted a trade request from '}<strong>{trade.sender.name}</strong></Text>;
+            }
 
           case TradeStatus.TradeRejected:
-            return <Text><strong>{trade.receiver.name}</strong>{' has rejected your trade request'}</Text>;
+            if (trade.sender.id === profile?.id) {
+              return <Text><strong>{trade.receiver.name}</strong>{' has rejected your trade request'}</Text>;
+            } else {
+              return <Text>{'You rejected a trade request from '}<strong>{trade.sender.name}</strong></Text>;
+            }
 
           case TradeStatus.TradeCancelled:
-            return <Text>{'You have cancelled a trade with '}<strong>{trade.receiver.name}</strong></Text>;
+            if (trade.sender.id === profile?.id) {
+              return <Text>{'You have cancelled a trade with '}<strong>{trade.receiver.name}</strong></Text>;
+            } else {
+              return <Text><strong>{trade.sender.name}</strong>{' has cancelled a trade with you'}</Text>;
+            }
 
           default:
             return <Text>{'You have traded with '}<strong>{trade.receiver.name}</strong></Text>;
