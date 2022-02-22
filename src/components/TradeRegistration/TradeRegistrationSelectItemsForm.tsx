@@ -40,7 +40,7 @@ function TradeRegistrationSelectItemsForm(props: ItemFormProps): React.ReactElem
         setReceiverResources={setReceiverResources}
       />
 
-      <Box marginTop={5}>
+      <Box marginTop={5} marginBottom={20}>
         <Button float={'right'} onClick={tradeSetup}>
           {'Send Offer'}
         </Button>
