@@ -23,6 +23,16 @@ export interface SurvivorResource {
   quantity: number;
 }
 
+export interface SurvivorSelectedItem {
+  id: number;
+  price: number;
+  quantity: number;
+}
+
+export interface SurvivorSelectedItems {
+  [item_id: number]: number;
+}
+
 export interface SurvivorWrite extends SurvivorPayload {
   inventory: SurvivorResource[];
 }

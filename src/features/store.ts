@@ -4,6 +4,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import { agarthaAPI } from '../services';
 import errorHandlerReducer from './errorHandler/errorHandlerSlice';
 import authReducer from './auth/authSlice';
+import registrationReducer from './registration/registrationSlice';
 import survivorReducer from './survivor/survivorSlice';
 import tradeReducer from './trade/tradeSlice';
 
@@ -12,6 +13,7 @@ const store = configureStore({
     [agarthaAPI.reducerPath]: agarthaAPI.reducer,
     errorHandler: errorHandlerReducer,
     auth: authReducer,
+    registration: registrationReducer,
     survivor: survivorReducer,
     trade: tradeReducer,
   },
