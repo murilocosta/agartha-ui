@@ -15,6 +15,8 @@ import {
 } from '@chakra-ui/react';
 
 import { getItemIcon } from '../../constants/itemIconList';
+import { useAppDispatch } from '../../features/hooks';
+import { setSelectedItem } from '../../features/registration/registrationSlice';
 import { ItemRead } from '../../models/item';
 import { SurvivorResource } from '../../models/survivor';
 
@@ -24,9 +26,12 @@ export interface InventoryItemProps extends ArrayHelpers {
 }
 
 function SurvivorRegistrationInventoryItem(props: InventoryItemProps): React.ReactElement<InventoryItemProps> {
+	const dispatch = useAppDispatch();
+
 	const handleChange = (_: string, quantity: number) => {
 		const resource: SurvivorResource = { item_id: props.item.id, quantity };
 		props.replace(resource.item_id, resource);
+		dispatch(setSelectedItem({ id: resource.item_id, price: props.item.price, quantity }));
 	}
 
 	return (

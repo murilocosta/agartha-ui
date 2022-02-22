@@ -11,6 +11,8 @@ import authSignUpSchema from '../../validators/survivorRegistrationSchema';
 
 import SurvivorRegistrationContainer from './SurvivorRegistrationContainer';
 import AppErrorBox from '../AppError/AppErrorBox';
+import { useAppDispatch } from '../../features/hooks';
+import { resetSelectedItems } from '../../features/registration/registrationSlice';
 
 const initialValues: AuthSignUp = {
   username: '',
@@ -30,6 +32,7 @@ const initialValues: AuthSignUp = {
 
 function SurvivorRegistrationPage(): React.ReactElement {
   const [registerSurvivor, { isSuccess }] = useRegisterSurvivorMutation();
+  const dispatch = useAppDispatch();
   const toast = useToast();
 
   useEffect(() => {
@@ -52,11 +55,23 @@ function SurvivorRegistrationPage(): React.ReactElement {
         validationSchema={authSignUpSchema}
         onSubmit={(values: AuthSignUp, actions: FormikHelpers<AuthSignUp>) => {
           actions.setSubmitting(true);
-          values.survivor.inventory = values.survivor.inventory.filter((item) => !!item);
-          registerSurvivor(values).finally(() => {
-            actions.setSubmitting(false);
-            actions.resetForm();
-          });
+
+          const payload = {
+            ...values,
+            survivor: {
+              ...values.survivor,
+              inventory: values.survivor.inventory.filter((item) => !!item)
+            }
+          };
+
+          registerSurvivor(payload)
+            .then((result) => {
+              if (!result.hasOwnProperty('error')) {
+                dispatch(resetSelectedItems());
+                actions.resetForm();
+              }
+            })
+            .finally(() => actions.setSubmitting(false));
         }}
       >
         {(formikProps: FormikProps<FormikValues>): React.ReactNode => (

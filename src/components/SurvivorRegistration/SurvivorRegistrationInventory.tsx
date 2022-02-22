@@ -6,8 +6,9 @@ import {
   FormErrorMessage,
 } from '@chakra-ui/react';
 
-import SurvivorRegistrationInventoryList from './SurvivorRegistrationInventoryList';
 import SurvivorInventoryNameFilter from '../SurvivorInventory/SurvivorInventoryNameFilter';
+import SurvivorRegistrationInventoryList from './SurvivorRegistrationInventoryList';
+import SurvivorRegistrationInventoryMaxPrice from './SurvivorRegistrationInventoryMaxPrice';
 
 function SurvivorRegistrationInventory(props: FormikProps<FormikValues>): React.ReactElement {
   const [nameFilter, setNameFilter] = useState('');
@@ -20,6 +21,8 @@ function SurvivorRegistrationInventory(props: FormikProps<FormikValues>): React.
         <SurvivorRegistrationInventoryList nameFilter={nameFilter} {...props} />
         <FormErrorMessage>{'Must select at least one item'}</FormErrorMessage>
       </FormControl>
+
+      <SurvivorRegistrationInventoryMaxPrice />
     </>
   );
 }
