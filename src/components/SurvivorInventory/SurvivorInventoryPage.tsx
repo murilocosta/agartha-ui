@@ -12,13 +12,13 @@ function SurvivorInventoryPage(): React.ReactElement {
   const survivorProfile = useAppSelector(selectProfile);
   const { data, isLoading } = useFetchSurvivorInventoryQuery(survivorProfile?.id || 0);
 
-  if (isLoading) {
-    return <SurvivorInventoryListFallback />
-  }
-
   return (
     <AppSection pageHeader={'Survivor Inventory'}>
-      <SurvivorInventoryList inventory={data} />
+      {isLoading ? (
+        <SurvivorInventoryListFallback />
+      ) : (
+        <SurvivorInventoryList inventory={data} />
+      )}
     </AppSection>
   );
 }

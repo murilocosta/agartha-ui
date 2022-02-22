@@ -1,15 +1,17 @@
 import React from "react";
 
-import { Skeleton, Stack } from "@chakra-ui/react";
+import { Center, Skeleton, Stack } from "@chakra-ui/react";
 
 function SurvivorInventoryListFallback(): React.ReactElement {
   return (
-    <Stack>
-      <Skeleton height='50px' />
-      <Skeleton height='50px' />
-      <Skeleton height='50px' />
-      <Skeleton height='50px' />
+    <Center>
+    <Stack gap={4} width={'60%'}>
+      <Skeleton height='90px' />
+      <Skeleton height='90px' />
+      <Skeleton height='90px' />
+      <Skeleton height='90px' />
     </Stack>
+    </Center>
   );
 }
 
