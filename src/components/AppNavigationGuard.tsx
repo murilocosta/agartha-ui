@@ -20,7 +20,7 @@ function AppNavigationGuard(): React.ReactElement {
       dispatch(setProfile(data));
     }
 
-    if (!isLoggedIn || isError) {
+    if (!isLoggedIn && isError) {
       navigate('/login', { replace: false, state: { from: location } });
     }
   }, [
