@@ -41,13 +41,13 @@ function TradeRegistrationSelectItemsPage(): React.ReactElement {
     <AppSection pageHeader={'Trade - Select Items'}>
       {isLoading ? <Progress size='sm' isIndeterminate /> : null}
 
-      <TradeRegistrationSelectItemsForm selectTradeItems={selectTradeItems} />
-
       <TradeRegistrationConfirmationModal
         isOpen={isOpen}
         onClose={onClose}
         onTradeConfirm={tradeItems}
       />
+
+      <TradeRegistrationSelectItemsForm selectTradeItems={selectTradeItems} />
     </AppSection>
   );
 }
