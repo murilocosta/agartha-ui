@@ -3,6 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 
 import AppLogout from './AppLogout';
 import AppNavigationGuard from './AppNavigationGuard';
+import DashboardPage from './Dashboard/DashboardPage';
 import FlagInfectedSurvivorPage from './FlagInfectedSurvivor/FlagInfectedSurvivorPage';
 import SurvivorInventoryPage from './SurvivorInventory/SurvivorInventoryPage';
 import SurvivorLoginPage from './SurvivorLogin/SurvivorLoginPage';
@@ -15,7 +16,7 @@ import TradeRegistrationSelectSurvivorPage from './TradeRegistration/TradeRegist
 function AppNavigation(): React.ReactElement {
   return (
     <Routes>
-      <Route path='/' element={<></>} />
+      <Route path='/' element={<DashboardPage />} />
       <Route path='/register' element={<SurvivorRegistrationPage />} />
       <Route path='/login' element={<SurvivorLoginPage />} />
       <Route path='/survivors' element={<AppNavigationGuard />}>

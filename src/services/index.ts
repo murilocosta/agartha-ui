@@ -1,5 +1,5 @@
-import { BaseQueryApi } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { BaseQueryApi, BaseQueryResult } from '@reduxjs/toolkit/dist/query/baseQueryTypes';
 
 import { setCredentials } from '../features/auth/authSlice';
 import { setError } from '../features/errorHandler/errorHandlerSlice';
@@ -11,6 +11,12 @@ import { ReportedInfection } from '../models/infection';
 import { InventoryRead } from '../models/inventory';
 import { buildItemFilterQuery, ItemFilter, ItemRead } from '../models/item';
 import { SurvivorLocationWrite } from '../models/location';
+import {
+  AverageResourcesPerSurvivor,
+  InfectedRatioReport,
+  ReportData,
+  TotalResourcesLost
+} from '../models/report';
 import {
   buildSurvivorFilterQuery,
   SurvivorFilter,
@@ -182,6 +188,28 @@ export const agarthaAPI = createApi({
 
       invalidatesTags: ['Trade'],
     }),
+
+    fetchInfectedSurvivorsPercentage: builder.query<InfectedRatioReport[], void>({
+      query: () => 'reports/infected-survivors',
+
+      transformResponse(response: BaseQueryResult<any>): ReturnType<any> {
+        const infected = response.report.infected_percentage
+        const nonInfected = 1 - infected;
+
+        return [
+          { name: 'Infected', value: infected },
+          { name: 'Non infected', value: nonInfected }
+        ];
+      }
+    }),
+
+    fetchAverageResourcesPerSurvivor: builder.query<ReportData<AverageResourcesPerSurvivor[]>, void>({
+      query: () => 'reports/average-resources',
+    }),
+
+    fetchTotalResourcesLost: builder.query<ReportData<TotalResourcesLost[]>, void>({
+      query: () => 'reports/resources-lost',
+    }),
   }),
 });
 
@@ -200,4 +228,7 @@ export const {
   useTradeAcceptMutation,
   useTradeRejectMutation,
   useTradeCancelMutation,
+  useFetchInfectedSurvivorsPercentageQuery,
+  useFetchAverageResourcesPerSurvivorQuery,
+  useFetchTotalResourcesLostQuery,
 } = agarthaAPI;
