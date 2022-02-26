@@ -1,17 +1,17 @@
 {
   "files": {
     "main.css": "/agartha-ui/static/css/main.6dea0f05.chunk.css",
-    "main.js": "/agartha-ui/static/js/main.aa509549.chunk.js",
-    "main.js.map": "/agartha-ui/static/js/main.aa509549.chunk.js.map",
+    "main.js": "/agartha-ui/static/js/main.33b5d99e.chunk.js",
+    "main.js.map": "/agartha-ui/static/js/main.33b5d99e.chunk.js.map",
     "runtime-main.js": "/agartha-ui/static/js/runtime-main.3920bfcc.js",
     "runtime-main.js.map": "/agartha-ui/static/js/runtime-main.3920bfcc.js.map",
-    "static/js/2.1aafea00.chunk.js": "/agartha-ui/static/js/2.1aafea00.chunk.js",
-    "static/js/2.1aafea00.chunk.js.map": "/agartha-ui/static/js/2.1aafea00.chunk.js.map",
+    "static/js/2.3888d7de.chunk.js": "/agartha-ui/static/js/2.3888d7de.chunk.js",
+    "static/js/2.3888d7de.chunk.js.map": "/agartha-ui/static/js/2.3888d7de.chunk.js.map",
     "static/js/3.e31cb6af.chunk.js": "/agartha-ui/static/js/3.e31cb6af.chunk.js",
     "static/js/3.e31cb6af.chunk.js.map": "/agartha-ui/static/js/3.e31cb6af.chunk.js.map",
     "index.html": "/agartha-ui/index.html",
     "static/css/main.6dea0f05.chunk.css.map": "/agartha-ui/static/css/main.6dea0f05.chunk.css.map",
-    "static/js/2.1aafea00.chunk.js.LICENSE.txt": "/agartha-ui/static/js/2.1aafea00.chunk.js.LICENSE.txt",
+    "static/js/2.3888d7de.chunk.js.LICENSE.txt": "/agartha-ui/static/js/2.3888d7de.chunk.js.LICENSE.txt",
     "static/media/food.089e658f.svg": "/agartha-ui/static/media/food.089e658f.svg",
     "static/media/medicine.c4c2c6a0.svg": "/agartha-ui/static/media/medicine.c4c2c6a0.svg",
     "static/media/unknown.c23e2024.svg": "/agartha-ui/static/media/unknown.c23e2024.svg",
@@ -20,8 +20,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.3920bfcc.js",
-    "static/js/2.1aafea00.chunk.js",
+    "static/js/2.3888d7de.chunk.js",
     "static/css/main.6dea0f05.chunk.css",
-    "static/js/main.aa509549.chunk.js"
+    "static/js/main.33b5d99e.chunk.js"
   ]
 }
